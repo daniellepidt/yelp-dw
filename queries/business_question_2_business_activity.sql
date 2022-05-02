@@ -10,6 +10,6 @@ FROM
         JOIN
     yelp_dw.year_dim ON review_facts.year_id = year_dim.year_id
 WHERE
-    is_open = 1 AND year = 2017
+    is_open = 1 AND year = 2017 AND (num_of_small_business IS NOT NULL AND volume_of_activity IS NOT NULL)
 GROUP BY state
 ORDER BY volume_of_activity DESC, num_of_small_business DESC
