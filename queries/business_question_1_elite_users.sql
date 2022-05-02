@@ -1,12 +1,11 @@
-SELECT
-	user_dim.user_id,
+SELECT 
+    user_dim.user_id,
     name,
-    grade,
-    COUNT(DISTINCT(business_id)) AS businesses_reviewed_in_2017
+    0.9 * grade + 0.1 * businesses_reviewed_in_2017 / max_review AS final_grade
 FROM
-	 yelp_dw.review_facts JOIN yelp_dw.user_dim ON review_facts.user_id = user_dim.user_id
-     JOIN yelp_dw.year_dim ON review_facts.year_id = year_dim.year_id
-    
-WHERE elite LIKE '%2017%' AND year = 2017
-GROUP BY user_dim.user_id
-ORDER BY grade DESC, businesses_reviewed_in_2017 DESC
+    yelp_dw.user_dim
+        JOIN
+    yelp_dw.reviews_per_user ON user_dim.user_id = reviews_per_user
+    CROSS JOIN 
+    yelp_dw.max_reviews_for_user
+ORDER BY final_grade DESC

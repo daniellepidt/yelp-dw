@@ -1,4 +1,4 @@
-CREATE VIEW max_reviews_for_user AS
+CREATE VIEW yelp_dw.max_reviews_for_user AS
     SELECT 
         MAX(reviews_per_user) AS max_review
     FROM
